@@ -1,0 +1,19 @@
+#canvas {
+    display: flex;
+    flex-direction: column;
+    -webkit-touch-callout : none;
+    -webkit-user-select:none;
+    -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    -o-user-select: none;; user-select: none;
+}
+
+#wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+#side_wrapper {
+    display: flex;
+    flex-direction: column;
+}

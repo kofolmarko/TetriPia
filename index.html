@@ -17,12 +17,14 @@
             <label for="sleep_time">Time between frames</label>
             <input type="number" name="sleep_time" id="sleep_time" value="0.5">
             <button id="generate_anim">Generate animation</button>
+            <p>Click on added frame to delete</p>
         </div>
     </div>
-    <div id="anim_grid">
-
+    <div id="anim_grid"></div>
+    <div id="script_wrapper">
+        <textarea name="frame_code" id="frame_code" cols="10" rows="5"></textarea>
+        <button id="copy_script">Copy script</button>
     </div>
-    <textarea name="frame_code" id="frame_code" cols="30" rows="10"></textarea>
     <script src="./app.js"></script>
 </body>
 </html>

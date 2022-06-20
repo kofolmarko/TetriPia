@@ -18,8 +18,26 @@
     flex-direction: column;
 }
 
+#side_panel > * {
+    margin: 3px;
+}
+
 #anim_grid {
     display: flex;
     flex-direction: row;
     overflow-x: auto;
+}
+
+.anim_frame:hover {
+    cursor: pointer;
+    filter: grayscale();
+}
+
+#frame_code {
+    margin-top: 10px;
+}
+
+#script_wrapper {
+    display: flex;
+    flex-direction: column;
 }

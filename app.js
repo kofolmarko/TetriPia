@@ -10,19 +10,37 @@ const animGrid = document.getElementById('anim_grid');
 const canvas = document.getElementById('canvas');
 const sleepTime = document.getElementById('sleep_time');
 const generateAnimBtn = document.getElementById('generate_anim');
+const copyScriptBtn = document.getElementById('copy_script');
 
 let mainFrame = [];
 
 const main = () => {
     generatePixels();
+
     generateFrameBtn.addEventListener('click', () => {
         frameCode.value = 'frame = [' + generateFrame(mainFrame) + ']';
+        frameCode.style.backgroundColor = 'rgb(157, 255, 238)';
     });
+
     addFrameBtn.addEventListener('click', () => {
         addFrame();
     });
+
     generateAnimBtn.addEventListener('click', () => {
         frameCode.value = generateAnimation();
+        frameCode.style.backgroundColor = 'rgb(255, 143, 143)';
+    });
+
+    copyScriptBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(frameCode.value)
+            .then(() => {
+              alert('Text copied to clipboard');
+              frameCode.value = '';
+              frameCode.style.backgroundColor = 'white';
+            })
+            .catch(err => {
+              alert('Error in copying text: ', err);
+            });
     });
 }
 
@@ -45,11 +63,13 @@ const generatePixels = () => {
 
             newRow.appendChild(newPixel);
             mainFrame.push(newPixel);
+
             newPixel.addEventListener('mouseover', (e) => {
                 if (e.which === 1) {
                     onClickPaint(newPixel);
                 }
             });
+
             newPixel.addEventListener('mousedown', (e) => {
                 onClickPaint(newPixel);
             });
@@ -63,6 +83,7 @@ const onClickPaint = (newPixel) => {
 
 const generateFrame = (frame) => {
     arrayString = [];
+
     frame.forEach((pixel) => {
         if (!pixel.style.backgroundColor) {
             arrayString.push('(0, 0, 0)');
@@ -71,6 +92,7 @@ const generateFrame = (frame) => {
             arrayString.push(pixelRGB);
         }
     });
+
     return arrayString;
 }
 
@@ -95,6 +117,7 @@ const generateAnimation = () => {
 
 const addFrame = () => {
     const newFrame = canvas.cloneNode(true);
+
     newFrame.childNodes.forEach((node) => {
         node.childNodes.forEach((pixelNode) => {
             pixelNode.style.width = '10px';
@@ -102,8 +125,14 @@ const addFrame = () => {
             pixelNode.style.border = 'none';
         });
     });
+
     newFrame.style.margin = '20px';
-    newFrame.draggable = 'true';
+    newFrame.classList.add('anim_frame');
+
+    newFrame.addEventListener('click', () => {
+        newFrame.remove();
+    });
+
     animGrid.appendChild(newFrame);
 };
 

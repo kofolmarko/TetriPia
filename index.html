@@ -10,10 +10,17 @@
 <body>
     <div id="wrapper">
         <div id="canvas"></div>
-        <div id="side_wrapper">
+        <div id="side_panel">
             <input type="color" name="color" id="color">
             <button id="generate">Generate frame</button>
+            <button id="add_frame">Add frame</button>
+            <label for="sleep_time">Time between frames</label>
+            <input type="number" name="sleep_time" id="sleep_time" value="0.5">
+            <button id="generate_anim">Generate animation</button>
         </div>
+    </div>
+    <div id="anim_grid">
+
     </div>
     <textarea name="frame_code" id="frame_code" cols="30" rows="10"></textarea>
     <script src="./app.js"></script>

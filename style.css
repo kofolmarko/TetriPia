@@ -13,7 +13,13 @@
     flex-direction: row;
 }
 
-#side_wrapper {
+#side_panel {
     display: flex;
     flex-direction: column;
+}
+
+#anim_grid {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
 }

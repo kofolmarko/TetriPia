@@ -11,6 +11,7 @@ const canvas = document.getElementById('canvas');
 const sleepTime = document.getElementById('sleep_time');
 const generateAnimBtn = document.getElementById('generate_anim');
 const copyScriptBtn = document.getElementById('copy_script');
+const postFrameBtn = document.getElementById('post_frame');
 
 let mainFrame = [];
 
@@ -42,6 +43,18 @@ const main = () => {
               alert('Error in copying text: ', err);
             });
     });
+
+    postFrameBtn.addEventListener('click', () => {
+        let frameReqBody =  generateFrameReqBody(mainFrame);
+        const requestObject = new XMLHttpRequest(); // object of request
+        requestObject.onload = function() {
+            document.getElementById("server_response").innerHTML = this.responseText; // displaying response text in paragraph tag
+        }
+debugger
+        requestObject.open("POST", "http://localhost:1337/frame");
+        requestObject.setRequestHeader("Content-type", "application/json; charset=utf-8"); // setting of headers  in request
+        requestObject.send(JSON.stringify(frameReqBody)); // data to send in request
+    });
 }
 
 const generatePixels = () => {
@@ -59,7 +72,7 @@ const generatePixels = () => {
             newPixel.style.width = pixelSize;
             newPixel.style.height = pixelSize;
             newPixel.style.border = 'white solid 1px';
-            newPixel.style.backgroundColor = 'rgb(0, 0, 0)';
+            newPixel.style.backgroundColor = 'rgb(0,0,0)';
 
             newRow.appendChild(newPixel);
             mainFrame.push(newPixel);
@@ -86,7 +99,7 @@ const generateFrame = (frame) => {
 
     frame.forEach((pixel) => {
         if (!pixel.style.backgroundColor) {
-            arrayString.push('(0, 0, 0)');
+            arrayString.push('(0,0,0)');
         } else {
             let pixelRGB = pixel.style.backgroundColor.split('b')[1];
             arrayString.push(pixelRGB);
@@ -94,6 +107,32 @@ const generateFrame = (frame) => {
     });
 
     return arrayString;
+}
+
+const generateFrameReqBody = (frame) => {
+    arrayString = [];
+    frame.forEach((pixel) => {
+        arrayString.push(pixel.style.backgroundColor.split('b')[1] + '#');
+    });
+
+    const items = arrayString; //… your array, filled with values
+    const n = 9; //tweak this to add more items per line
+
+    const result = new Array(Math.ceil(items.length / n))
+    .fill()
+    .map(_ => items.splice(0, n));
+
+    for (let i = 0; i < result.length; i++) {
+        rowStr = "";
+        result[i].forEach((p) => {
+            rowStr += p;
+        });
+        rowStr = rowStr.slice(0, rowStr.length - 1);
+        rowStr = rowStr.replace(/\s/g, '');
+        result[i] = rowStr;
+    }
+
+    return result;
 }
 
 const generateAnimation = () => {
